@@ -1,0 +1,77 @@
+swagger: '2.0'
+info:
+  description: >-
+    API Auth Core: API de Marina V&V que unifica el sistema de autenticación de todas las aplicaciones en un lugar y estandariza los protocolos y reglas. Visita el [repositorio de
+    github](https://github.com/MarinaVVsoftware/API-Auth-Core).
+  version: 0.1.0
+  title: MarinaCore
+  termsOfService: ''
+  contact:
+    email: sistemas@marinavv.com
+  license:
+    name: GPL
+    url: 'https://github.com/MarinaVVsoftware/API-Auth-Core/blob/master/LICENSE'
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths
+basePath: /api/
+tags:
+  - name: login
+    description: Métodos para iniciar sesión con Firebase Auth.
+schemes:
+  # tip: remove http to make production-grade
+  - https
+  - http
+  # format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /login:
+    post:
+      tags:
+        - login
+      summary: >-
+        Recibe los datos para el login con firebase y devuelve el resultado del
+        login
+      description: >-
+        Recibe un correo y contraseña como método de autenticación a través de
+        firebase.
+      operationId: login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Datos de inicio de sesión necesarios.
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: '{ auth: true } ó { auth: false }'
+        '404':
+          description: >-
+            No se ha especificado un email. | No se ha especificado una
+            contraseña.
+        '405':
+          description: Invalid input
+   
+definitions:
+  User:
+    type: object
+    required:
+      - user
+      - password
+    properties:
+      user:
+        type: string
+        example: example@mail.com
+      password:
+        type: string
+        example: '123456'
+ 
