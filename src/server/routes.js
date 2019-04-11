@@ -5,9 +5,9 @@
 const Example = require("../routes/Example");
 const Log = require("../helpers/Logs");
 
-module.exports = (app, router) => {
+module.exports = (app, router, firebaseAdmin) => {
   /* Rutas de login */
-  Example(app, router);
+  Example(app, router, firebaseAdmin);
 
   Log.Success("Rutas de la API cargadas.");
 };
