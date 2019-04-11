@@ -1,29 +1,120 @@
+const fetch = require("node-fetch");
 const Log = require("../helpers/Logs");
 
 // Controller - Auth
 const Auth = {};
 
-// Ejemplo de controller
-Auth.CreateUser = function() {
+// POST: crea un usuario en firebase.
+Auth.CreateUser = function(firebaseAdmin) {
   return function(req, res) {
-    // validaciones del objeto res previo a su manipulación
-    // if (!req.body.email)
-    //   return res.status(400).send("No se ha especificado un email.");
-    // if (!req.body.password)
-    //   return res.status(400).send("No se ha especificado una contraseña.");
+    // validaciones del request
+    if (!req.body.email)
+      return res.status(400).send("No se ha especificado un email en el body.");
+    if (!req.body.password)
+      return res
+        .status(400)
+        .send("No se ha especificado un password en el body.");
+    if (!req.body.displayName)
+      return res
+        .status(400)
+        .send("No se ha especificado un displayName en el body.");
+    if (!req.body.username)
+      return res
+        .status(400)
+        .send("No se ha especificado un username en el body.");
 
-    // snippets para manejar los datos
-    const user = req.body.email;
-    const password = req.body.password;
-
+    // creación de la cuenta en firebase/auth, luego guarda una referencia al usuario en
+    // la firebase/database.
     try {
-      // código del controller
+      // hace un fetch a validateUser para saber si existe el usuario
+      fetch("http://localhost:8080/api/auth/validateUser", {
+        method: "POST",
+        body: JSON.stringify({ email: req.body.email }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .then(function(response) {
+          console.log("respuesta de validación: ");
+          console.log(response);
+          // si la respuesta se devolvió correctamente, != null
+          if (response) {
+            //si response.state = false que significa que no existe el usuario
+            // en caso que exista, devuelve un error
+            if (!response.state) {
+              firebaseAdmin
+                .auth()
+                .createUser({
+                  email: req.body.email,
+                  emailVerified: false,
+                  password: req.body.password,
+                  displayName: req.body.displayName,
+                  disabled: false
+                })
+                .then(userRecord => {
+                  // aqui se guarda en la database el usuario para permitir login por usuario
+                  var ref = firebaseAdmin.database().ref("/Users");
+                  ref.child(userRecord.uid).set({
+                    displayName: req.body.displayName,
+                    email: req.body.email
+                  });
 
-      // respuesta código 200 OK
-      res.status(200).send(JSON.stringify("message"));
+                  // envía un code:200 con un mensaje del estado del proceso
+                  res.status(200).send(
+                    JSON.stringify({
+                      state: "Usuario Creado: " + req.body.username
+                    })
+                  );
+                })
+                .catch(function(error) {
+                  let message = "";
+                  // genera un mensaje de error basado en el código de error de firebase auth.
+                  // https://firebase.google.com/docs/auth/admin/errors?hl=es-419
+                  switch (error.code) {
+                    case "auth/invalid-display-name":
+                      message =
+                        "El valor que se proporcionó para la propiedad del usuario displayName no es válido. Debe ser una string que no esté vacía.";
+                      break;
+                    case "auth/invalid-email":
+                      message =
+                        "El valor que se proporcionó para la propiedad de usuario email no es válido. Debe ser una dirección de correo electrónico de string.";
+                      break;
+                    case "auth/invalid-password":
+                      message =
+                        "El valor que se proporcionó para la propiedad del usuario password no es válido. Debe ser una string con al menos seis caracteres.";
+                      break;
+                    case "auth/email-already-exists":
+                      message =
+                        "Otro usuario ya está utilizando el correo electrónico proporcionado. Cada usuario debe tener un correo electrónico único.";
+                      break;
+                    default:
+                      message =
+                        "Error no manejado. Error Message: " + error.message;
+                      break;
+                  }
+                  res.status(400).send(JSON.stringify({ error: message }));
+                });
+            } else {
+              res.status(400).send(
+                JSON.stringify({
+                  error: "El email ya está siendo utilizado."
+                })
+              );
+            }
+          } else {
+            Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+            res.status(500).send({ error: error });
+          }
+        })
+        .catch(error => {
+          Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+          res.status(500).send({ error: error });
+        });
     } catch (error) {
       Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
-      res.status(500).send("Algo ha fallado en el servidor! Error: " + error);
+      res.status(500).send({ error: error });
     }
   };
 };
@@ -53,7 +144,7 @@ Auth.ValidateUser = function(firebaseAdmin) {
             Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
             res.status(500).send(
               JSON.stringify({
-                error: "Algo ha fallado en el servidor! Error: " + error
+                error: error
               })
             );
           }
@@ -62,7 +153,7 @@ Auth.ValidateUser = function(firebaseAdmin) {
       Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
       res.status(500).send(
         JSON.stringify({
-          error: "Algo ha fallado en el servidor! Error: " + error
+          error: error
         })
       );
     }
@@ -97,7 +188,7 @@ Auth.GetAllUsers = function(firebaseAdmin) {
           Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
           res.status(500).send(
             JSON.stringify({
-              error: "Algo ha fallado en el servidor! Error: " + error
+              error: error
             })
           );
         });
@@ -105,7 +196,7 @@ Auth.GetAllUsers = function(firebaseAdmin) {
       Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
       res.status(500).send(
         JSON.stringify({
-          error: "Algo ha fallado en el servidor! Error: " + error
+          error: error
         })
       );
     }
