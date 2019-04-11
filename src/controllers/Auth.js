@@ -37,8 +37,6 @@ Auth.CreateUser = function(firebaseAdmin) {
       })
         .then(res => res.json())
         .then(function(response) {
-          console.log("respuesta de validación: ");
-          console.log(response);
           // si la respuesta se devolvió correctamente, != null
           if (response) {
             //si response.state = false que significa que no existe el usuario
