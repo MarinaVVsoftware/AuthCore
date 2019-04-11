@@ -43,14 +43,12 @@ Auth.ValidateUser = function(firebaseAdmin) {
         .getUserByEmail(req.body.email)
         .then(user => {
           //si el usuario existe, arroja code:200 y un boolean true
-          res.status(200);
-          res.send(JSON.stringify({ user: true }));
+          res.status(200).send(JSON.stringify({ user: true }));
         })
         .catch(error => {
           if (error.code === "auth/user-not-found") {
             //si el usuario no existe, arroja code:200 y un boolean false
-            res.status(200);
-            res.send(JSON.stringify({ user: false }));
+            res.status(200).send(JSON.stringify({ user: false }));
           } else {
             Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
             res.status(500).send(
@@ -59,6 +57,49 @@ Auth.ValidateUser = function(firebaseAdmin) {
               })
             );
           }
+        });
+    } catch (error) {
+      Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+      res.status(500).send(
+        JSON.stringify({
+          error: "Algo ha fallado en el servidor! Error: " + error
+        })
+      );
+    }
+  };
+};
+
+// GET: lista de usuarios existentes en la DB de firebase.
+Auth.GetAllUsers = function(firebaseAdmin) {
+  var list = [];
+
+  return function(req, res) {
+    try {
+      // trae una lista de 1000 usuarios. Este método de firebase se encuentra en la documentación
+      // como una función recursiva, no se logró implementar así y desafortunadamente trae un número
+      // fijo de usuarios.
+      firebaseAdmin
+        .auth()
+        .listUsers(1000)
+        .then(function(listUsersResult) {
+          listUsersResult.users.forEach(function(userRecord) {
+            // deconstruye la información de firebase en un nuevo objeto reducido
+            list.push({
+              uid: userRecord.uid,
+              email: userRecord.email,
+              displayName: userRecord.displayName
+            });
+          });
+          // devuelve la lista de usuarios
+          res.status(200).send(JSON.stringify({ users: list }));
+        })
+        .catch(function(error) {
+          Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+          res.status(500).send(
+            JSON.stringify({
+              error: "Algo ha fallado en el servidor! Error: " + error
+            })
+          );
         });
     } catch (error) {
       Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);

@@ -8,6 +8,7 @@ module.exports = (app, router, firebaseAdmin) => {
   // ejemplo de ruta
   router.post("/api/auth/user", Auth.CreateUser());
   router.post("/api/auth/validateUser", Auth.ValidateUser(firebaseAdmin));
+  router.get("/api/auth/users", Auth.GetAllUsers(firebaseAdmin));
 
   app.use(router);
 };
