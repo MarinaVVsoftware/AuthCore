@@ -158,6 +158,50 @@ Auth.ValidateUser = function(firebaseAdmin) {
   };
 };
 
+// POST: entrega información sobre si existe o no un usuario registrado.
+Auth.GetUser = function(firebaseAdmin) {
+  return function(req, res) {
+    if (!req.body.email)
+      return res
+        .status(400)
+        .send("No se ha especificado un email como query url.");
+
+    try {
+      firebaseAdmin
+        .auth()
+        .getUserByEmail(req.body.email)
+        .then(user => {
+          // devuelve un booleano y los datos del usuario
+          res.status(200).send(
+            JSON.stringify({
+              user: true,
+              data: {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName
+              }
+            })
+          );
+        })
+        .catch(error => {
+          if (error.code === "auth/user-not-found") {
+            res.status(200).send(JSON.stringify({ user: false }));
+          } else {
+            Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+            res.status(500).send(
+              JSON.stringify({
+                error: error
+              })
+            );
+          }
+        });
+    } catch (error) {
+      Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+      res.status(500).send({ error: error });
+    }
+  };
+};
+
 // GET: lista de usuarios existentes en la DB de firebase.
 Auth.GetAllUsers = function(firebaseAdmin) {
   var list = [];
