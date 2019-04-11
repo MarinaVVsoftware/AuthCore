@@ -1,5 +1,4 @@
 const express = require("express");
-// si no está el archivo .env el programa tronará.
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors")({ origin: true });
@@ -7,7 +6,7 @@ const swagger = require("./swagger/swagger");
 const routes = require("./routes");
 const monitor = require("express-status-monitor");
 const Log = require("../helpers/Logs");
-var keys = require("./Keys");
+FirebaseAdmin = require("./FirebaseAdmin");
 var monitorConfig = require("./monitorConfig");
 
 // este módulo sirve para separar la configuración del servidor
@@ -22,6 +21,8 @@ module.exports = app => {
   app.use(express.json());
   app.use(bodyParser.json());
   app.use(cors);
+  // instancia de firebase
+  const firebaseAdmin = FirebaseAdmin();
   // crea el objeto de routing
   const router = express.Router();
   // instancia de swagger
@@ -30,7 +31,7 @@ module.exports = app => {
   app.use(monitor(monitorConfig));
 
   /* ROUTES */
-  routes(app, router);
+  routes(app, router, firebaseAdmin);
 
   Log.Success("Configuración del servidor establecida.");
   return app;
