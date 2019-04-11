@@ -245,4 +245,68 @@ Auth.GetAllUsers = function(firebaseAdmin) {
   };
 };
 
+// POST: elimina un usuario desde su email.
+Auth.DeleteUSer = function(firebaseAdmin) {
+  return function(req, res) {
+    if (!req.body.email)
+      return res.status(400).send("No se ha especificado un usuario.");
+
+    try {
+      // hace un fetch a validateUser para saber si existe el usuario
+      fetch("http://localhost:8080/api/auth/getUser", {
+        method: "POST",
+        body: JSON.stringify({ email: req.body.email }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      })
+        .then(res => res.json())
+        .then(function(response) {
+          // si la respuesta se devolvió correctamente, != null
+          if (response) {
+            //si response.user = true que significa que el usuario existe
+            // en caso que no exista, devuelve un error
+            if (response.user) {
+              // elimina el usuario basado en su uid
+              firebaseAdmin
+                .auth()
+                .deleteUser(response.data.uid)
+                .then(function() {
+                  // elimina los datos del usuario enlazados en la database
+                  firebaseAdmin
+                    .database()
+                    .ref("/Users")
+                    .child(response.data.uid)
+                    .remove();
+                  // envía el estado ok
+                  res
+                    .status(200)
+                    .send(JSON.stringify({ status: "Usuario eliminado." }));
+                })
+                .catch(function(error) {
+                  Log.ErrorLog(
+                    "Algo ha fallado en el servidor! Error: " + error
+                  );
+                  res.status(500).send({ error: error });
+                });
+            } else {
+              res.status(400).send(
+                JSON.stringify({
+                  error: "El email no existe."
+                })
+              );
+            }
+          } else {
+            Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+            res.status(500).send({ error: error });
+          }
+        });
+    } catch (error) {
+      Log.ErrorLog("Algo ha fallado en el servidor! Error: " + error);
+      res.status(500).send({ error: error });
+    }
+  };
+};
+
 module.exports = Auth;
