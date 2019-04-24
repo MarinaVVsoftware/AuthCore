@@ -18,7 +18,7 @@ const config = require("./src/server/Config"); //importa la configuración
 const app = config(express());
 
 //start server on port: 8080
-const server = app.listen(8080, function() {
+const server = app.listen(app.get("port"), function() {
   Log.Success("API inicializó exitosamente.");
   Log.Success("Server escuchando en http://localhost:" + server.address().port);
 });

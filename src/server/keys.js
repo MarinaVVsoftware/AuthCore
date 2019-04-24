@@ -1,8 +1,15 @@
-const dotenv = require("dotenv").config();
+const path = require("path");
+// busca el archivo .env según el environment seteado.
+require("dotenv").config({
+  path: path.resolve(`./${process.env.NODE_ENV}.env`)
+});
 
 // se importan los datos sensibles del archivo .env a un objeto
 // que la app pueda usar amigablemente.
 module.exports = {
+  vars: {
+    port: process.env.PORT
+  },
   config: {
     database_url: process.env.DATABASE_URL,
     session_secret: process.env.SESSION_SECRET
