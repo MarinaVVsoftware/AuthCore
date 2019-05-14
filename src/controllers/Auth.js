@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
-const Log = require('../helpers/Logs');
-const Token = require('../helpers/Token');
+const path = require('path');
+const Log = require(path.resolve(__dirname, '../helpers/Logs'));
+const Token = require(path.resolve(__dirname, '../helpers/Token'));
 require('firebase/auth');
 
 // Controller - Auth
@@ -89,7 +90,7 @@ Auth.CreateUser = function(firebaseAdmin) {
 		// la firebase/database.
 		try {
 			// hace un fetch a validateUser para saber si existe el usuario
-			fetch('http://localhost:8080/api/auth/validateUser', {
+			fetch(process.env.HOST + 'api/auth/validateUser', {
 				method: 'POST',
 				body: JSON.stringify({ email: req.body.email }),
 				headers: {
@@ -262,6 +263,7 @@ Auth.GetAllUsers = function(firebaseAdmin) {
 	var list = [];
 
 	return function(req, res) {
+		list = [];
 		try {
 			// trae una lista de 1000 usuarios. Este método de firebase se encuentra en la documentación
 			// como una función recursiva, no se logró implementar así y desafortunadamente trae un número
@@ -307,7 +309,7 @@ Auth.DeleteUSer = function(firebaseAdmin) {
 
 		try {
 			// hace un fetch a validateUser para saber si existe el usuario
-			fetch('http://localhost:8080/api/auth/getUser', {
+			fetch(process.env.HOST + 'api/auth/getUser', {
 				method: 'POST',
 				body: JSON.stringify({ email: req.body.email }),
 				headers: {

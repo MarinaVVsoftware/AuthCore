@@ -2,8 +2,9 @@
 
 /* CONTROLLERS */
 // ejemplo de instancia de controlador
-const Auth = require('../controllers/Auth');
-const Token = require('../helpers/Token');
+const path = require('path');
+const Auth = require(path.resolve(__dirname, '../controllers/Auth'));
+const Token = require(path.resolve(__dirname, '../helpers/Token'));
 
 module.exports = (app, router, firebaseAdmin, firebaseClient) => {
 	// ejemplo de ruta
@@ -12,7 +13,7 @@ module.exports = (app, router, firebaseAdmin, firebaseClient) => {
 	router.post('/api/auth/getUser', Auth.GetUser(firebaseAdmin));
 	router.post('/api/auth/user', Auth.CreateUser(firebaseAdmin));
 	router.post('/api/auth/validateUser', Auth.ValidateUser(firebaseAdmin));
-	router.get('/api/auth/users', Auth.GetAllUsers(firebaseAdmin));
+	router.get('/api/auth/getUsers', Auth.GetAllUsers(firebaseAdmin));
 	router.post('/api/auth/deleteUser', Auth.DeleteUSer(firebaseAdmin));
 
 	app.use(router);
