@@ -2,12 +2,13 @@
 // de routes, aquí se carga el arbol superior de las rutas y facilita
 // entender el ruteo de la API. También ayuda a el paso de parámetros de instancias
 // necesarias.
-const Example = require("../routes/Example");
-const Log = require("../helpers/Logs");
+const path = require('path');
+const Auth = require(path.resolve(__dirname, '../routes/Auth'));
+const Log = require(path.resolve(__dirname, '../helpers/Logs'));
 
-module.exports = (app, router) => {
-  /* Rutas de login */
-  Example(app, router);
+module.exports = (app, router, firebaseAdmin, firebaseClient) => {
+	/* Rutas de login */
+	Auth(app, router, firebaseAdmin, firebaseClient);
 
-  Log.Success("Rutas de la API cargadas.");
+	Log.Success('Rutas de la API cargadas.');
 };
