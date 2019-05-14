@@ -5,6 +5,7 @@ const keys = require(path.resolve(__dirname, 'keys'));
 
 // inicialización de firebase separada
 module.exports = () => {
+	if (!keys) return null;
 	try {
 		const firebase = admin.initializeApp(
 			{

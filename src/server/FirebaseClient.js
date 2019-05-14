@@ -4,6 +4,7 @@ var keys = require(path.resolve(__dirname, 'keys'));
 
 // inicialización de firebase separada
 module.exports = () => {
+	if (!keys) return null;
 	try {
 		var config = {
 			apiKey: keys.client_credentials.apiKey,
