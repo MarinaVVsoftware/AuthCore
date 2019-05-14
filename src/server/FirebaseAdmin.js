@@ -1,7 +1,7 @@
 var admin = require('firebase-admin');
 const path = require('path');
 const Log = require(path.resolve(__dirname, '../helpers/Logs'));
-const keys = require(path.resolve(__dirname, 'Keys'));
+const keys = require(path.resolve(__dirname, 'keys'));
 
 // inicialización de firebase separada
 module.exports = () => {
