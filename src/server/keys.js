@@ -1,7 +1,7 @@
 const path = require('path');
 // busca el archivo .env según el environment seteado.
 require('dotenv').config({
-	path: path.resolve(`./${process.env.NODE_ENV}.env`)
+	path: path.resolve(`${process.env.NODE_ENV}.env`)
 });
 
 // se importan los datos sensibles del archivo .env a un objeto
