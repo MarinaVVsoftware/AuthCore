@@ -1,12 +1,19 @@
 const path = require('path');
+let keyPath = '';
+// If para deploy en plesk. Hardcode variable de entorno.
+if (process.env.NODE_ENV) {
+	keyPath = `../../${process.env.NODE_ENV}.env`;
+} else {
+	keyPath = '../../prod.env';
+}
 // busca el archivo .env según el environment seteado.
 require('dotenv').config({
-	path: path.resolve(__dirname, `../../${process.env.NODE_ENV}.env`)
+	path: path.resolve(__dirname, keyPath)
 });
 
 // se importan los datos sensibles del archivo .env a un objeto
 // que la app pueda usar amigablemente.
-if (process.env.SERVER_PRIVATE_KEY !== null) {
+if (process.env.SERVER_PRIVATE_KEY) {
 	module.exports = {
 		vars: {
 			port: process.env.PORT
