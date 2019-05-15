@@ -10,7 +10,10 @@ const publicKey = fs.readFileSync(path.resolve(__dirname, "keys/public.key"), "u
 Token.generateToken = (tokenData) => {
 	return jwt.sign(tokenData, privateKey, {
 		expiresIn: "4d",
-		algorithm: "HS256"
+		// Source: https://stackoverflow.com/questions/39239051/rs256-vs-hs256-whats-the-difference
+		// Algoritmo RS000 utiliza dos keys, una public y una private.
+		// Algoritmo HS000 utiliza solo una key compartida entre ambas funciones (generate y verify).
+		algorithm: "RS256"
 	});
 };
 
@@ -19,12 +22,20 @@ Token.validateToken = (header) => {
 	var isSuccess = false;
 	const token = header;
 	if (!token) return isSuccess;
+
 	// Quita la palabra "Bearer" propia de JWT
 	const tokenFormatted = token.replace("Bearer", "");
 	// Verifica el token
-	return jwt.verify(tokenFormatted, publicKey, function (err, user) {
-		return err ? isSuccess : !isSuccess;
-	});
+	return jwt.verify(
+		tokenFormatted,
+		publicKey,
+		{
+			expiresIn: "4d"
+		},
+		function (err, user) {
+			return err ? isSuccess : !isSuccess;
+		}
+	);
 };
 
 // Recibe el header "authorization" y lo valida con la función "validateToken"
