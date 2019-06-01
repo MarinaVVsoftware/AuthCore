@@ -1,14 +1,21 @@
 const jwt = require("jsonwebtoken");
 const Token = {};
-const fs = require("fs");
-const path = require("path");
-const privateKey = fs.readFileSync(path.resolve(__dirname, "keys/private.key"), "utf8");
-const publicKey = fs.readFileSync(path.resolve(__dirname, "keys/public.key"), "utf8");
+const keys = {};
 
 // Loguea el tokenData y te retorna el token encriptado
 // Utiliza un privateKey(authcore) y publicKey(novocore).
+
+Token.keys = (private, public) => {
+	if (private && public) {
+		keys.private = private;
+		keys.public = public;
+	} else {
+		return null;
+	}
+};
+
 Token.generateToken = (tokenData) => {
-	return jwt.sign(tokenData, privateKey, {
+	return jwt.sign(tokenData, keys.private, {
 		expiresIn: "4d",
 		// Source: https://stackoverflow.com/questions/39239051/rs256-vs-hs256-whats-the-difference
 		// Algoritmo RS000 utiliza dos keys, una public y una private.
@@ -28,7 +35,7 @@ Token.validateToken = (header) => {
 	// Verifica el token
 	return jwt.verify(
 		tokenFormatted,
-		publicKey,
+		keys.public,
 		{
 			expiresIn: "4d"
 		},

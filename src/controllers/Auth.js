@@ -1,14 +1,13 @@
 const fetch = require("node-fetch");
 const path = require("path");
 const Log = require(path.resolve(__dirname, "../helpers/Logs"));
-const Token = require(path.resolve(__dirname, "../helpers/Token"));
 require("firebase/auth");
 
 // Controller - Auth
 const Auth = {};
 
 // POST: recibe los datos para el login con firebase y devuelve el resultado de login.
-Auth.Login = function (firebaseClient) {
+Auth.Login = function (firebaseClient, generateToken) {
 	return function (req, res) {
 		if (!req.body.email) return res.status(400).send("No se ha especificado un email.");
 		if (!req.body.password) return res.status(400).send("No se ha especificado una contraseña.");
@@ -23,7 +22,7 @@ Auth.Login = function (firebaseClient) {
 				.signInWithEmailAndPassword(user, password)
 				.then((result) => {
 					// Genera un token y regresa un objeto encriptado.
-					const token = Token.generateToken({ uid: result.user.uid });
+					const token = generateToken({ uid: result.user.uid });
 					res.status(200);
 					res.json({ token });
 				})
