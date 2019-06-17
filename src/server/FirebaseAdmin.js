@@ -1,24 +1,23 @@
-var admin = require('firebase-admin');
-const path = require('path');
-const Log = require(path.resolve(__dirname, '../helpers/Logs'));
-const keys = require(path.resolve(__dirname, 'keys'));
+var admin = require("firebase-admin");
+const path = require("path");
+const Log = require(path.resolve(__dirname, "../helpers/Logs"));
 
 // inicialización de firebase separada
-module.exports = () => {
-	if (!keys) return null;
-	try {
-		const firebase = admin.initializeApp(
-			{
-				credential: admin.credential.cert(keys.server_credentials),
-				databaseURL: keys.config.database_url
-			},
-			'server'
-		);
+module.exports = config => {
+  if (!config) return null;
+  try {
+    const firebase = admin.initializeApp(
+      {
+        credential: admin.credential.cert(config.keys),
+        databaseURL: config.database.database_url
+      },
+      "server"
+    );
 
-		Log.Success('Inicialización de Firebase Admin exitosa.');
-		return firebase;
-	} catch (error) {
-		Log.ErrorLog('Algo ha fallado con Firebase: ' + error);
-		return null;
-	}
+    Log.Success("Inicialización de Firebase Admin exitosa.");
+    return firebase;
+  } catch (error) {
+    Log.ErrorLog("Algo ha fallado con Firebase: " + error);
+    return null;
+  }
 };

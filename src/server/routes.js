@@ -3,12 +3,27 @@
 // entender el ruteo de la API. También ayuda a el paso de parámetros de instancias
 // necesarias.
 const path = require("path");
-const Auth = require(path.resolve(__dirname, "../routes/Auth"));
 const Log = require(path.resolve(__dirname, "../helpers/Logs"));
+const ErrorHandler = require(path.resolve(
+  __dirname,
+  "../middlewares/ErrorHandler"
+));
+/* Imports de Rutas */
+const Auth = require(path.resolve(__dirname, "../routes/Auth"));
 
-module.exports = (app, router, firebaseAdmin, firebaseClient, Token) => {
-	/* Rutas de login */
-	Auth(app, router, firebaseAdmin, firebaseClient, Token);
+module.exports = (
+  app,
+  router,
+  newError,
+  validate,
+  firebaseAdmin,
+  firebaseClient,
+  Token
+) => {
+  /* Rutas de login */
+  Auth(app, router, newError, validate, firebaseAdmin, firebaseClient, Token);
 
-	Log.Success("Rutas de la API cargadas.");
+  ErrorHandler(app);
+
+  Log.Success("Rutas de la API cargadas.");
 };

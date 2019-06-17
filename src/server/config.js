@@ -4,47 +4,110 @@ const fs = require("fs");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors")({ origin: true });
-const swagger = require(path.resolve(__dirname, "swagger/swagger"));
 const routes = require(path.resolve(__dirname, "routes"));
+const swagger = require(path.resolve(__dirname, "swagger/swagger"));
 const monitor = require("express-status-monitor");
+const envs = require(path.resolve(__dirname, "envs"));
 const Log = require(path.resolve(__dirname, "../helpers/Logs"));
+var monitorConfig = require(path.resolve(__dirname, "monitorConfig"));
 FirebaseAdmin = require(path.resolve(__dirname, "FirebaseAdmin"));
 FirebaseClient = require(path.resolve(__dirname, "FirebaseClient"));
-var monitorConfig = require(path.resolve(__dirname, "monitorConfig"));
-// Imports de llave pública, privada y método para la autentificación de JWT.
-const privateKey = fs.readFileSync(path.resolve(__dirname, "../helpers/keys/private.key"), "utf8");
-const publicKey = fs.readFileSync(path.resolve(__dirname, "../helpers/keys/public.key"), "utf8");
+/* Helpers para los Controllers */
+var { Validator } = require("express-json-validator-middleware");
 const Token = require(path.resolve(__dirname, "../helpers/Token"));
+const newError = require(path.resolve(__dirname, "../helpers/NewError"));
+
+// Imports de llave pública, privada y método para la autentificación de JWT.
+const privateKey = fs.readFileSync(
+  path.resolve(__dirname, "../helpers/keys/private.key"),
+  "utf8"
+);
+const publicKey = fs.readFileSync(
+  path.resolve(__dirname, "../helpers/keys/public.key"),
+  "utf8"
+);
 
 // este módulo sirve para separar la configuración del servidor
 // del archivo que instancia el servidor.
-module.exports = (app) => {
-	/* SETTINGS */
-	//establece el puerto, ya sea por variable de entorno o predeterminado.
-	app.set("port", process.env.PORT || 8080);
+module.exports = app => {
+  let vars = {};
+  let firebaseClientConfig = {};
+  let firebaseAdminConfig = {};
+  /* SETTINGS */
+  //establece las configuraciones de host y port
+  if (envs.env.NODE_ENV) {
+    switch (envs.env.NODE_ENV) {
+      case "local":
+        vars = envs.env.local;
+        break;
+      case "dev" || "development":
+        vars = envs.env.dev;
+        break;
+      case "prod" || "production":
+        vars = envs.env.prod;
+        break;
+      default:
+        vars = envs.env.local;
+        break;
+    }
+    // Guarda en express variables de uso global
+    app.set("port", vars.port);
+    app.set("host", vars.host);
 
-	/* MIDDLEWARES */
-	app.use(morgan("dev"));
-	app.use(express.json());
-	app.use(bodyParser.json());
-	app.use(cors);
-	// instancia de firebase
-	const firebaseAdmin = FirebaseAdmin();
-	const firebaseClient = FirebaseClient();
-	// crea el objeto de routing
-	const router = express.Router();
-	// instancia de swagger
-	swagger(app, router);
-	// inicia el servicio de monitoreo
-	app.use(monitor(monitorConfig));
+    firebaseClientConfig = envs.firebaseClient;
+    firebaseAdminConfig = envs.firebaseAdmin;
 
-	if (firebaseAdmin != null && firebaseClient != null && Token.keys(privateKey, publicKey)) {
-		/* ROUTES */
-		routes(app, router, firebaseAdmin, firebaseClient, Token);
-		Log.Success("Configuración del servidor establecida.");
-		return app;
-	} else {
-		Log.ErrorLog("Algo ha fallado con las configuraciones de la API.");
-		return null;
-	}
+    Log.Success(
+      "\nVariables de entorno cargadas. Entorno: " + envs.env.NODE_ENV
+    );
+  } else {
+    Log.Error(
+      "No se ha podido instanciar las variables de entorno. El servidor ha fallado."
+    );
+    return null;
+  }
+
+  /* MIDDLEWARES */
+  // Solo instancia morgan en entorno dev y local
+  if ((envs.env.NODE_ENV = "dev" || "development" || "local"))
+    app.use(morgan("dev"));
+  // dependencias para json y http(s)
+  app.use(express.json());
+  app.use(bodyParser.json());
+  app.use(cors);
+  // instancia de firebase
+  const firebaseAdmin = FirebaseAdmin(firebaseAdminConfig);
+  const firebaseClient = FirebaseClient(firebaseClientConfig);
+  // crea el objeto de routing
+  const router = express.Router();
+  // instancia de swagger
+  swagger(app, router);
+  // inicia el servicio de monitoreo
+  app.use(monitor(monitorConfig));
+
+  // crea el middleware para validación de endpoints
+  var validator = new Validator({ allErrors: true });
+  var validate = validator.validate;
+
+  if (
+    firebaseAdmin != null &&
+    firebaseClient != null &&
+    Token.keys(privateKey, publicKey)
+  ) {
+    /* ROUTES */
+    routes(
+      app,
+      router,
+      newError,
+      validate,
+      firebaseAdmin,
+      firebaseClient,
+      Token
+    );
+    Log.Success("Configuración del servidor establecida.");
+    return app;
+  } else {
+    Log.ErrorLog("Algo ha fallado con las configuraciones de la API.");
+    return null;
+  }
 };

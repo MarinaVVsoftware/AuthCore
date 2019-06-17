@@ -9,18 +9,18 @@
  *  5. Carga la storage-session que mantendrá con la sesión del usuario.
  *  6. Inicia la aplicación.
  */
-const path = require('path');
-const express = require('express'); //import express
-const Log = require(path.resolve(__dirname, 'src/helpers/Logs'));
-const config = require(path.resolve(__dirname, 'src/server/config')); //importa la configuración
+const path = require("path");
+const express = require("express"); //import express
+const Log = require(path.resolve(__dirname, "src/helpers/Logs"));
+const config = require(path.resolve(__dirname, "src/server/config")); //importa la configuración
 
 // se pasa como parámetro la instancia de express al módulo de config
 const app = config(express());
 
 if (app) {
-	//start server on port: 8080
-	const server = app.listen(app.get('port'), function() {
-		Log.Success('API inicializó exitosamente.');
-		Log.Success('Server escuchando en: ' + process.env.HOST);
-	});
+  //start server on port: 8080
+  app.listen(app.get("port"), function() {
+    Log.Success("API inicializó exitosamente.");
+    Log.Success("Server escuchando en: " + app.get("host"));
+  });
 }
