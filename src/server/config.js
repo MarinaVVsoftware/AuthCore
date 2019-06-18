@@ -31,31 +31,33 @@ const publicKey = fs.readFileSync(
 // del archivo que instancia el servidor.
 module.exports = app => {
   let vars = {};
-  let firebaseClientConfig = {};
-  let firebaseAdminConfig = {};
+  let firebaseConfig = {};
   /* SETTINGS */
   //establece las configuraciones de host y port
   if (envs.env.NODE_ENV) {
     switch (envs.env.NODE_ENV) {
       case "local":
         vars = envs.env.local;
+        firebaseConfig = envs.firebase.dev;
         break;
       case "development":
         vars = envs.env.dev;
+        firebaseConfig = envs.firebase.dev;
+
         break;
       case "production":
         vars = envs.env.prod;
+        firebaseConfig = envs.firebase.prod;
         break;
       default:
         vars = envs.env.local;
+        firebaseConfig = envs.firebase.dev;
         break;
     }
     // Guarda en express variables de uso global
     app.set("port", vars.port);
     app.set("host", vars.host);
-
-    firebaseClientConfig = envs.firebaseClient;
-    firebaseAdminConfig = envs.firebaseAdmin;
+    app.set("debug_routemap", envs.env.DEBUG_ROUTEMAP);
 
     Log.Success(
       "\nVariables de entorno cargadas. Entorno: " + envs.env.NODE_ENV
@@ -76,8 +78,8 @@ module.exports = app => {
   app.use(bodyParser.json());
   app.use(cors);
   // instancia de firebase
-  const firebaseAdmin = FirebaseAdmin(firebaseAdminConfig);
-  const firebaseClient = FirebaseClient(firebaseClientConfig);
+  const firebaseAdmin = FirebaseAdmin(firebaseConfig);
+  const firebaseClient = FirebaseClient(firebaseConfig);
   // crea el objeto de routing
   const router = express.Router();
   // instancia de swagger

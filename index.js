@@ -20,11 +20,11 @@ const app = config(express());
 
 if (app) {
   //start server on port: 8080
-  app.listen(app.get("port"), function() {
+  app.listen(app.get("port"), () => {
     Log.Success("API inicializó exitosamente.");
     Log.Success("Server escuchando en host: " + app.get("host"));
     Log.Success("Server escuchando en puerto: " + app.get("port"));
     /* Pinta las rutas disponibles */
-    displayRoutes(app);
+    if (app.get("debug_routemap") == true) displayRoutes(app);
   });
 }

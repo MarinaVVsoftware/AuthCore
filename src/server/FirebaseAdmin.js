@@ -8,7 +8,7 @@ module.exports = config => {
   try {
     const firebase = admin.initializeApp(
       {
-        credential: admin.credential.cert(config.keys),
+        credential: admin.credential.cert(config.admin),
         databaseURL: config.database.database_url
       },
       "server"

@@ -159,7 +159,7 @@ Auth.PutUser = (newError, firebaseAdmin, host) => {
     // la firebase/database.
     try {
       // hace un fetch a validateUser para saber si existe el usuario
-      fetch(host + "/api/auth/" + req.params.email + "/validate/")
+      fetch(host + "/api/auth/users/" + req.params.email + "/validate/")
         .then(res => res.json())
         .then(response => {
           // si la respuesta se devolvió correctamente, != null
@@ -397,7 +397,7 @@ Auth.DeleteUSer = (newError, firebaseAdmin, host) => {
 
     try {
       // hace un fetch a validateUser para saber si existe el usuario
-      fetch(host + "/api/auth/" + req.params.email + "/validate/")
+      fetch(host + "/api/auth/users/" + req.params.email + "/validate/")
         .then(res => res.json())
         .then(function(response) {
           // si la respuesta se devolvió correctamente, != null

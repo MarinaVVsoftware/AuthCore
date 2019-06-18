@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "local": "set NODE_ENV=local&& nodemon index.js",
-    "dev:windows": "set NODE_ENV=development&& node index.js",
-    "dev:linux": "NODE_ENV=development node index.js",
-    "prod:windows": "set NODE_ENV=production&& node index.js",
-    "prod:linux": "NODE_ENV=production node index.js"
+    "dev:debug": "set NODE_ENV=development&& nodemon index.js",
+    "dev:deploy": "NODE_ENV=development node index.js",
+    "prod:debug": "set NODE_ENV=production&& nodemon index.js",
+    "prod:deploy": "NODE_ENV=production node index.js"
   },
   "keywords": [],
   "author": "",

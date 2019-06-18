@@ -5,7 +5,7 @@ const path = require("path");
 module.exports = config => {
   if (!config) return null;
   try {
-    firebase.initializeApp(config);
+    firebase.initializeApp(config.client);
     console.log("\x1b[32m", "Inicialización de Firebase Client exitosa.");
     return firebase;
   } catch (error) {
