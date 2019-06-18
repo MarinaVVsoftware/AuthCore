@@ -81,7 +81,7 @@ module.exports = app => {
   // crea el objeto de routing
   const router = express.Router();
   // instancia de swagger
-  swagger(app, router);
+  // swagger(app, router);
   // inicia el servicio de monitoreo
   app.use(monitor(monitorConfig));
 
