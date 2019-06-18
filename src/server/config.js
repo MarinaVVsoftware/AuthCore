@@ -15,7 +15,7 @@ FirebaseClient = require(path.resolve(__dirname, "FirebaseClient"));
 /* Helpers para los Controllers */
 var { Validator } = require("express-json-validator-middleware");
 const Token = require(path.resolve(__dirname, "../helpers/Token"));
-const newError = require(path.resolve(__dirname, "../helpers/NewError"));
+const newError = require(path.resolve(__dirname, "../helpers/newError"));
 
 // Imports de llave pública, privada y método para la autentificación de JWT.
 const privateKey = fs.readFileSync(
