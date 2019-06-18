@@ -40,10 +40,10 @@ module.exports = app => {
       case "local":
         vars = envs.env.local;
         break;
-      case "dev" || "development":
+      case "development":
         vars = envs.env.dev;
         break;
-      case "prod" || "production":
+      case "production":
         vars = envs.env.prod;
         break;
       default:
