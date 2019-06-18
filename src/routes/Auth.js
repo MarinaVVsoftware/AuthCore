@@ -29,22 +29,22 @@ module.exports = (
   );
   router.get("/api/auth/users/", Auth.GetAllUsers(newError, firebaseAdmin));
   router.get(
-    "/api/auth/:email/",
+    "/api/auth/users/:email/",
     validate({ params: Schema.ParamsGetUser }),
     Auth.GetUser(newError, firebaseAdmin)
   );
   router.put(
-    "/api/auth/:email/",
+    "/api/auth/users/:email/",
     validate({ params: Schema.ParamsPutUser, body: Schema.BodyPutUser }),
     Auth.PutUser(newError, firebaseAdmin, app.get("host"))
   );
   router.get(
-    "/api/auth/:email/validate/",
+    "/api/auth/users/:email/validate/",
     validate({ params: Schema.ParamsValidateUser }),
     Auth.ValidateUser(newError, firebaseAdmin)
   );
   router.delete(
-    "/api/auth/:email/",
+    "/api/auth/users/:email/",
     validate({ params: Schema.ParamsDeleteUser }),
     Auth.DeleteUSer(newError, firebaseAdmin, app.get("host"))
   );

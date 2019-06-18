@@ -323,7 +323,7 @@ Auth.GetUser = (newError, firebaseAdmin) => {
     /* Valida manualmente si el email es un string alfanumérico válido.
     decodifica el string de la uri. %40 significa arroba. */
     if (!emailRegex.test(email))
-      next(newError('el param "mail" no es un email válido.', 400));
+      next(newError('el param "email" no es un email válido.', 400));
     else
       try {
         firebaseAdmin
