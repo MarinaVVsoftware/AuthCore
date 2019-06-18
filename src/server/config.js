@@ -61,7 +61,7 @@ module.exports = app => {
       "\nVariables de entorno cargadas. Entorno: " + envs.env.NODE_ENV
     );
   } else {
-    Log.Error(
+    Log.ErrorLog(
       "No se ha podido instanciar las variables de entorno. El servidor ha fallado."
     );
     return null;
