@@ -2,9 +2,9 @@
 
 Antes de realizar la instalación del proyecto ya sea en un entorno local o productivo, es necesario realizar un conjunto de preparaciones previas:
 
-1. [Crear un proyecto de Firebase](#1.-Crear-un-proyecto-de-firebase)
-2. [Preparar entorno de desarrollo](#2.-Preparar-entorno-de-desarrollo)
-3. [Preparar variables de entorno y keys](#3.-Preparar-variables-de-entorno-y-keys)
+1. [Crear un proyecto de Firebase](#1-Crear-un-proyecto-de-firebase)
+2. [Preparar entorno de desarrollo](#2-Preparar-entorno-de-desarrollo)
+3. [Preparar variables de entorno y keys](#3-Preparar-variables-de-entorno-y-keys)
 
 ### 1. Crear un proyecto de firebase
 

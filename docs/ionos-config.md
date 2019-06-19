@@ -8,7 +8,7 @@ Se infiere que para esta guía el lector ya tiene una cuenta de 1&1, donde adqui
 
 Los pasos a seguir en esta guía son los siguientes:
 
-1. [Configuración de dominios o subdominios en 1&1](#1.-Configuración-de-dominios-o-subdominios-en-1&1)
+1. [Configuración de dominios o subdominios en 1&1](#1-Configuración-de-dominios-o-subdominios-en-1&1)
 
 ### 1. Configuración de dominios o subdominios en 1&1
 

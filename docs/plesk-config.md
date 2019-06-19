@@ -4,8 +4,8 @@ La siguiente guía tiene como propósito servir para la configuración del proye
 
 los pasos a seguir son los siguientes:
 
-1. [Configuración de dominio o subdominio en Plesk](#1.-Configuración-de-dominio-o-subdominio-en-Plesk)
-2. [Instalación del proyecto en Plesk](#2.-Instalación-del-proyecto-en-Plesk)
+1. [Configuración de dominio o subdominio en Plesk](#1-Configuración-de-dominio-o-subdominio-en-Plesk)
+2. [Instalación del proyecto en Plesk](#2-Instalación-del-proyecto-en-Plesk)
 
 ### 1. Configuración de dominio o subdominio en Plesk
 

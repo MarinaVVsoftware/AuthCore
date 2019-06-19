@@ -2,10 +2,10 @@
 
 Antes de realizar la instalación del proyecto ya sea en un entorno local o productivo, es necesario realizar un conjunto de preparaciones previas:
 
-1. [Acceder al servidor Linux](#1.-Crear-un-proyecto-de-firebase)
-2. [Verificar instalaciones](#2.-Verificar-instalaciones)
-3. [Instalar proyecto](#3.-Instalar-proyecto)
-4. [Gestionar deploy con pm2](#4.-Gestionar-deploy-con-pm2)
+1. [Acceder al servidor Linux](#1-Crear-un-proyecto-de-firebase)
+2. [Verificar instalaciones](#2-Verificar-instalaciones)
+3. [Instalar proyecto](#3-Instalar-proyecto)
+4. [Gestionar deploy con pm2](#4-Gestionar-deploy-con-pm2)
 
 ### 1. Acceder al servidor Linux
 

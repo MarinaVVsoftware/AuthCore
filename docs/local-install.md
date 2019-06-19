@@ -2,8 +2,8 @@
 
 Para realizar la instalación en local es necesario realizar el siguiente proceso:
 
-1. [Ejecutar Proyecto](#1.-Ejecutar-el-proyecto)
-2. [Validar con Insomnia](#2.-Validar-con-Insomnia)
+1. [Ejecutar Proyecto](#1-Ejecutar-el-proyecto)
+2. [Validar con Insomnia](#2-Validar-con-Insomnia)
 
 ### 1. Ejecutar el proyecto
 
