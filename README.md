@@ -6,16 +6,14 @@
 
 ## Stack de Tecnologías
 
----
-
-### Tecnologías de Entorno de Desarrollo
+#### Tecnologías de Entorno de Desarrollo
 
 - Github
 - Visual Studio Code
 - npm
 - Github Desktop
 
-### Tecnologías de Desarrollo
+#### Tecnologías de Desarrollo
 
 - Node.js
 - Express.js
@@ -26,11 +24,11 @@
 - dotenv
 - Swagger
 
-### Tecnologías de Testing
+#### Tecnologías de Testing
 
 - Insomnia
 
-### Tecnologías de DevOps
+#### Tecnologías de DevOps
 
 - LastPass
 - Proveedor de Infraestructura 1&1
@@ -39,8 +37,6 @@
 - pm2
 
 ## Instalación y Deployment
-
----
 
 El proceso de instalación es diferente entre una estación de trabajo local y un servidor productivo. Cabe mencionar que las guías que se proveen como parte de la documentación del proyecto están basadas en los entornos y servidores que operaron los autores del proyecto, y están limitadas las guías a dichos entornos.
 
@@ -58,13 +54,9 @@ Para Instalar y Ejecutar el repositorio en un Entorno Productivo basado en el pr
 
 ## Wiki
 
----
-
 Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki AuthCore](https://github.com/MarinaVVsoftware/AuthCore/wiki).
 
 ## Autores
-
----
 
 - **Eduardo Hidalgo Díaz Rugama** - _Trabajo Inicial_ - [EduardoHidalgo](https://github.com/EduardoHidalgo)
 - **Manuel Gutiérrez** - _Integración de JWT y seguridad_ - [manuelGTZ97](https://github.com/manuelGTZ97)
@@ -72,7 +64,5 @@ Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki Aut
 También puedes mirar la lista de todos los [contribuyentes](https://github.com/MarinaVVsoftware/AuthCore/graphs/contributors) quíenes han participado en este proyecto.
 
 ## Licencia
-
----
 
 Este proyecto está bajo la Licencia GNU - mira el archivo [LICENSE.md](https://github.com/MarinaVVsoftware/AuthCore/blob/master/LICENSE) para detalles.
