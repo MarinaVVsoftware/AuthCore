@@ -5,7 +5,8 @@
  */
 function newError(errorMessage, statusCode) {
   const err = new Error(
-    errorMessage && typeof errorMessage === "string"
+    errorMessage &&
+    (typeof errorMessage === "string" || typeof errorMessage === "object")
       ? errorMessage
       : "Ops! Something went wrong"
   );
