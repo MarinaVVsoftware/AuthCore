@@ -291,26 +291,28 @@ Auth.ValidateUser = (newError, firebaseAdmin) => {
     decodifica el string de la uri. %40 significa arroba. */
     if (!emailRegex.test(email))
       next(newError("el param email no es un email válido.", 400));
-
-    try {
-      firebaseAdmin
-        .auth()
-        .getUserByEmail(email)
-        .then(user => {
-          //si el usuario existe, arroja code:200 y un boolean true
-          res
-            .status(200)
-            .send(JSON.stringify({ user: true, uid: user.uid, error: null }));
-        })
-        .catch(error => {
-          if (error.code === "auth/user-not-found") {
-            //si el usuario no existe, arroja code:200 y un boolean false
-            res.status(200).send(JSON.stringify({ user: false, error: null }));
-          } else next(newError({ error: error }, 500));
-        });
-    } catch (error) {
-      next(newError(error, 500));
-    }
+    else
+      try {
+        firebaseAdmin
+          .auth()
+          .getUserByEmail(email)
+          .then(user => {
+            //si el usuario existe, arroja code:200 y un boolean true
+            res
+              .status(200)
+              .send(JSON.stringify({ user: true, uid: user.uid, error: null }));
+          })
+          .catch(error => {
+            if (error.code === "auth/user-not-found") {
+              //si el usuario no existe, arroja code:200 y un boolean false
+              res
+                .status(200)
+                .send(JSON.stringify({ user: false, error: null }));
+            } else next(newError({ error: error }, 500));
+          });
+      } catch (error) {
+        next(newError(error, 500));
+      }
   };
 };
 
@@ -395,58 +397,52 @@ Auth.DeleteUSer = (newError, firebaseAdmin, host) => {
     decodifica el string de la uri. %40 significa arroba. */
     if (!emailRegex.test(email))
       next(newError("el param email no es un email válido.", 400));
-
-    try {
-      // hace un fetch a validateUser para saber si existe el usuario
-      fetch(host + "/api/auth/users/" + req.params.email + "/validate/")
-        .then(res => res.json())
-        .then(response => {
-          // si la respuesta se devolvió correctamente, != null
-          if (response) {
-            //si response.user = true que significa que el usuario existe
-            // en caso que no exista, devuelve un error
-            if (response.user) {
-              // elimina el usuario basado en su uid
-              firebaseAdmin
-                .auth()
-                .deleteUser(response.uid)
-                .then(() => {
-                  // elimina los datos del usuario enlazados en la database
-                  firebaseAdmin
-                    .database()
-                    .ref("/Users")
-                    .child(response.uid)
-                    .remove();
-                  // envía el estado ok
-                  res
-                    .status(200)
-                    .send(
+    else
+      try {
+        // hace un fetch a validateUser para saber si existe el usuario
+        fetch(host + "/api/auth/users/" + req.params.email + "/validate/")
+          .then(res => res.json())
+          .then(response => {
+            // si la respuesta se devolvió correctamente, != null
+            if (response) {
+              //si response.user = true que significa que el usuario existe
+              // en caso que no exista, devuelve un error
+              if (response.user) {
+                // elimina el usuario basado en su uid
+                firebaseAdmin
+                  .auth()
+                  .deleteUser(response.uid)
+                  .then(() => {
+                    // elimina los datos del usuario enlazados en la database
+                    firebaseAdmin
+                      .database()
+                      .ref("/Users")
+                      .child(response.uid)
+                      .remove();
+                    // envía el estado ok
+                    res.status(200).send(
                       JSON.stringify({
                         status: "Usuario eliminado.",
                         error: null
                       })
                     );
-                })
-                .catch(error => {
-                  console.log({ error: error });
-                  next(newError(error, 500));
-                });
+                  })
+                  .catch(error => {
+                    console.log({ error: error });
+                    next(newError(error, 500));
+                  });
+              } else {
+                next(newError("El email no existe.", 400));
+              }
             } else {
-              res.status(400).send(
-                JSON.stringify({
-                  error: "El email no existe."
-                })
-              );
+              console.log({ error: error });
+              next(newError(error, 500));
             }
-          } else {
-            console.log({ error: error });
-            next(newError(error, 500));
-          }
-        });
-    } catch (error) {
-      console.log({ error: error });
-      next(newError(error, 500));
-    }
+          });
+      } catch (error) {
+        console.log({ error: error });
+        next(newError(error, 500));
+      }
   };
 };
 
