@@ -42,15 +42,15 @@ El proceso de instalación es diferente entre una estación de trabajo local y u
 
 Para Instalar y Ejecutar el repositorio en un Entorno Local:
 
-1. Dirígase primero a la guía de [Configuración Inicial del Proyecto](https://github.com/MarinaVVsoftware/AuthCore/blob/master/docs/initial-config.md).
-2. Después seguir con la guia de [Instalación Local](https://github.com/MarinaVVsoftware/AuthCore/blob/master/docs/local-install.md).
+1. Dirígase primero a la guía de [Configuración Inicial del Proyecto](https://github.com/MarinaVVsoftware/AuthCore/wiki/Configuraci%C3%B3n-Inicial-del-Proyecto).
+2. Después seguir con la guia de [Instalación Local](https://github.com/MarinaVVsoftware/AuthCore/wiki/Instalaci%C3%B3n-Local).
 
 Para Instalar y Ejecutar el repositorio en un Entorno Productivo basado en el proveedor [1&1](https://www.ionos.mx/), panel gestionado Plesk, y con servidores Linux:
 
-1. Dirígase primero a la guía de [Configuración Inicial del Proyecto](https://github.com/MarinaVVsoftware/AuthCore/blob/master/docs/initial-config.md).
-2. Después seguir con la guía de [Configuración de proveedor 1&1](https://github.com/MarinaVVsoftware/AuthCore/blob/master/docs/ionos-config.md).
-3. Continuar con la guía de [Configuración en Plataforma Plesk](https://github.com/MarinaVVsoftware/AuthCore/blob/master/docs/plesk-config.md).
-4. Finalizar con la guía de [Configuración en Servidor Linux](https://github.com/MarinaVVsoftware/AuthCore/blob/master/docs/linux-install.md).
+1. Dirígase primero a la guía de [Configuración Inicial del Proyecto](https://github.com/MarinaVVsoftware/AuthCore/wiki/Configuraci%C3%B3n-Inicial-del-Proyecto).
+2. Después seguir con la guía de [Configuración de proveedor 1&1](https://github.com/MarinaVVsoftware/AuthCore/wiki/Configuraci%C3%B3n-de-proveedor-1&1).
+3. Continuar con la guía de [Configuración en Plataforma Plesk](https://github.com/MarinaVVsoftware/AuthCore/wiki/Configuraci%C3%B3n-en-Plataforma-Plesk).
+4. Finalizar con la guía de [Configuración en Servidor Linux](https://github.com/MarinaVVsoftware/AuthCore/wiki/Configuraci%C3%B3n-en-Servidor-Linux).
 
 ## Wiki
 
