@@ -25,7 +25,7 @@ module.exports = (
   router.post(
     "/api/auth/login/",
     validate({ body: Schema.BodyLogin }),
-    Auth.Login(newError, firebaseClient)
+    Auth.Login(newError, firebaseClient, Token.generateToken)
   );
   router.get("/api/auth/users/", Auth.GetAllUsers(newError, firebaseAdmin));
   router.get(
