@@ -73,7 +73,7 @@ Auth.Auth = (newError, firebaseClient, generateToken) => {
   };
 };
 
-Auth.Login = (newError, firebaseClient) => {
+Auth.Login = (newError, firebaseClient, generateToken) => {
   return (req, res, next) => {
     const user = req.body.email;
     const password = req.body.password;
