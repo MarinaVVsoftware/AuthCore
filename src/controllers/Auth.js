@@ -82,7 +82,7 @@ Auth.Login = (newError, firebaseClient, generateToken) => {
       firebaseClient
         .auth()
         .signInWithEmailAndPassword(user, password)
-        .then(() => {
+        .then(result => {
           // Genera un token y regresa un objeto encriptado.
           const token = generateToken({ uid: result.user.uid });
           res.status(200).send(JSON.stringify({ token, error: null }));
