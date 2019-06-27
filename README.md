@@ -1,6 +1,6 @@
 # AuthCore
 
-<img src="https://lh3.googleusercontent.com/wr6bR01HSCcpC0ksxsdwu1CQSoLPf_K4BW5DnmABRBlx91sKG2YP-heNCkn0kvmFdpzNLwPTUvA" alt="drawing" width="100%"/>
+![enter image description here](https://lh3.googleusercontent.com/Rp4QCiefxYHUTYCUkJ1XX6UBDX7sf2lUE76DzhiAn40fSZ_QFyZiGvUcNBo1WB5OuzdwyMC-WHI)
 
 **AuthCore** es una API RESTful basada en Express.js, que se encarga de gestionar la seguridad del sistema "Novonautica" y provee de métodos de autenticación y validación. Se apoya de tecnologías de Firebase para la autenticación y el sistema de login de usuarios.
 
