@@ -153,7 +153,12 @@ Auth.PutUser = (newError, firebaseAdmin, host) => {
         // creación de la cuenta en firebase/auth, luego guarda una referencia al usuario en
         // la firebase/database.
         // hace un fetch a validateUser para saber si existe el usuario
-        fetch(host + "/api/auth/users/" + req.params.email + "/validate/")
+        fetch(
+          host +
+            "/api/auth/users/" +
+            decodeURIComponent(req.params.email) +
+            "/validate/"
+        )
           .then(res => res.json())
           .then(response => {
             // si la respuesta se devolvió correctamente, != null
