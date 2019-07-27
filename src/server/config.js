@@ -19,11 +19,11 @@ const newError = require(path.resolve(__dirname, "../helpers/newError"));
 
 // Imports de llave pública, privada y método para la autentificación de JWT.
 const privateKey = fs.readFileSync(
-  path.resolve(__dirname, "../../keys/private.key"),
+  path.resolve(__dirname, "../helpers/keys/private.key"),
   "utf8"
 );
 const publicKey = fs.readFileSync(
-  path.resolve(__dirname, "../../keys/public.key"),
+  path.resolve(__dirname, "../helpers/keys/public.key"),
   "utf8"
 );
 
