@@ -10,13 +10,12 @@
  *  6. Inicia la aplicación.
  */
 const path = require("path");
-const express = require("express"); //import express
 const Log = require(path.resolve(__dirname, "src/helpers/Logs"));
 const config = require(path.resolve(__dirname, "src/server/config")); //importa la configuración
 displayRoutes = require("express-routemap");
 
 // se pasa como parámetro la instancia de express al módulo de config
-const app = config(express());
+const app = config();
 
 if (app) {
   //start server on port: 8080

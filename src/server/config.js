@@ -29,7 +29,9 @@ const publicKey = fs.readFileSync(
 
 // este módulo sirve para separar la configuración del servidor
 // del archivo que instancia el servidor.
-module.exports = app => {
+module.exports = () => {
+  var app = express();
+
   let vars = {};
   let firebaseConfig = {};
   /* SETTINGS */
